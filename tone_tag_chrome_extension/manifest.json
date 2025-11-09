@@ -1,0 +1,10 @@
+{
+  "name": "Tone Tag Suggester Chrome Extension",
+  "description": "Generate tone tags for your messages!",
+  "version": "1.0",
+  "manifest_version": 3,
+  "action": {
+    "default_popup": "user_config.html",
+    "default_icon": "ToneTag_Suggester_Logo.png"
+  }
+}
