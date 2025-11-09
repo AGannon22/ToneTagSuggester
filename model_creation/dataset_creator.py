@@ -4,10 +4,8 @@ import os
 import re
 import io
 
-# Use script directory so the script works regardless of current working directory
 ROOT = os.path.dirname(__file__)
 DATA_DIR = os.path.join(ROOT, "datasets")
-
 def read_csv_with_fallback(path):
 	encodings = ["utf-8", "cp1252", "latin-1"]
 	last_exc = None
@@ -37,7 +35,8 @@ reg_data = read_csv_with_fallback(ds1_path)
 data2 = read_csv_with_fallback(ds2_path)
 joke_database = read_csv_with_fallback(dad_path)
 
-#reformat reg_data, this has pos, neu, and neg 
+#reformat reg_data, this has /pos, /neu, and /neg 
+#within our dataset, pos is 0, neu is 1, neg is 2, and j is 3
 reg_data = reg_data[["sentiment","phrase"]]
 reg_data = reg_data.rename(columns={"sentiment":"Sentiment"})
 reg_data = reg_data.rename(columns={"phrase":"Text"})
