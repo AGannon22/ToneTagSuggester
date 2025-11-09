@@ -61,11 +61,7 @@ data2.loc[mask_exact_neg2, "Sentiment"] = 2
 mask_exact_pos2 = data2["Sentiment"].astype(str).str.strip().str.lower() == "happy"
 data2.loc[mask_exact_pos2, "Sentiment"] = 0
 dataset = pd.concat([reg_data, joke_database,data2], ignore_index=True)
-print(dataset.head())
-print("dataset sentiment counts:\n", dataset["Sentiment"].value_counts(dropna=False))
 
-
-# save combined dataset to datasets directory (non-destructive overwrite of combined_dataset.csv)
 out_path = os.path.join(DATA_DIR, 'combined_dataset.csv')
 dataset.to_csv(out_path, index=False, encoding='utf-8')
 

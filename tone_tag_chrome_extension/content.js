@@ -1,5 +1,5 @@
 console.log('content.js loaded');
-    const cb = document.getElementById('checkcheck');
+const cb = document.getElementById('checkcheck');
     //this saves suggestions to chrome storage and retrives it bc chrome was throwing a fit whats new
 let suggestionsEnabled = true;
 if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync && chrome.storage.sync.get) {
