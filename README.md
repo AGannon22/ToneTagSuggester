@@ -1,6 +1,6 @@
 # /ToneTag Suggester Overview
 
-/ToneTag Suggester is a work in progress project that is intented to be a Google Chrome Extension that will suggest tone indicators to attach to emails.
+/ToneTag Suggester is a work in progress project that is intented to be a Google Chrome Extension that will suggest tone indicators to attach to emails. This project is still a work in progress!
 
 ## The Goal
 Tone tags are often used by neurodivergent people who struggle to understand tone in written communications in many online spaces. Unfortunately, many of those in
