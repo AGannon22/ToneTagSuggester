@@ -20,4 +20,6 @@ My Tensorflow model is trained on multiple datasets that I found on Kaggle, all 
 [Positive-Neutral-Negative Sentiment Analysis Data](https://www.kaggle.com/datasets/jayeshchak/positive-neutral-negative-sentiment-analysis-data)
 by **Jayesh Chak**, licensed under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
+[GoEmotions Dataset: A Dataset of Fine-Grained Emotions](https://www.kaggle.com/datasets/debarshichanda/goemotions) by **Demszky, Dorottya and Movshovitz-Attias, Dana and Ko, Jeongwoo and Cowen, Alan and Nemade, Gaurav and Ravi, Sujith**
+
 The dataset is used for training purposes only. The raw data is not redistributed in this repository.
