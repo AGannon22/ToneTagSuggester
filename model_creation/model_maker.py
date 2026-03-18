@@ -9,10 +9,20 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from keras import losses
 from keras.layers import TextVectorization, Dense, Embedding, GlobalAveragePooling1D
+from keras.callbacks import EarlyStopping, ReduceLROnPlateau
 
 
 #stupid stupid path stuff
 dataset = pd.read_csv("model_creation\datasets\combined_dataset.csv")
+dataset['Text'] = dataset['Text'].apply(
+    lambda x: str(x).encode('utf-8', errors='ignore').decode('utf-8')
+              .encode('cp1252', errors='ignore').decode('cp1252')
+    if pd.notna(x) else ""
+)
+
+# Then drop any empty texts
+dataset = dataset[dataset['Text'].str.strip() != ""]
+dataset = dataset.dropna(subset=['Text', 'Sentiment'])
 ROOT = os.path.dirname(__file__)
 data1_path = os.path.join(ROOT, "datasets", "dataset1.csv")
 if os.path.exists(data1_path):
@@ -52,49 +62,57 @@ x_test = vectorize_layer(test_texts)
 
 print('Vectorized shape:', x_train.shape, x_test.shape)
 print('Vocabulary size: {}'.format(len(vectorize_layer.get_vocabulary())))
-num_classes = 4
+num_classes = 3
 embedding_dim = 16
-embed_dim = 128
+embed_dim = 64
 vectorize_layer.build((None,))  # or (None, 1)
+#create callbacks bc model was overfitting :(
+callbacks = [
+  EarlyStopping(monitor = 'val_loss',patience=3,restore_best_weights=True,start_from_epoch=3),
+      ReduceLROnPlateau(
+        monitor='val_loss',
+        factor=0.5,  
+        patience=2
+    )
+]
 model = models.Sequential([
   vectorize_layer,
-  layers.Embedding(input_dim=max_features, output_dim=embed_dim),
+  layers.Embedding(input_dim=max_features+1, output_dim=embed_dim),
   layers.Conv1D(128, 5, activation='relu'),
   layers.GlobalMaxPooling1D(),
-  layers.Dense(64, activation='relu'),
-  layers.Dropout(0.3),
-  layers.Dense(4, activation='softmax')
+  layers.Dense(64, activation='relu', kernel_regularizer=tf.keras.regularizers.l2(0.01)),  layers.Dropout(0.5),
+  layers.Dense(3, activation='softmax')
 ])
 model.compile(optimizer='adam',
               loss='sparse_categorical_crossentropy',
               metrics=['accuracy'])
 print(model.summary())
-epochs = 15
+epochs = 50
 history = model.fit(
     train_texts,
     train_labels,
     validation_data=(test_texts, test_labels),
     epochs=epochs,
+    callbacks=callbacks,
     batch_size=batch_size)
 
 loss, accuracy = model.evaluate(test_texts, test_labels)
 
-print("Loss: ", loss)
-print("Accuracy: ", accuracy)
+
 examples = tf.constant([
   "That was really funny!",
   "Can you get that to me by tommorow?",
   "The movie was terrible...",
-  "Please don't do that. Knock it off."
+  "Please don't do that. Knock it off.",
   "Why did the chicken cross the road? To get to the other side!",
   "I love spending time with my family."
 ])
 example_labels = tf.constant([0, 1, 2,3,0])
 loss2, accuracy2 = model.evaluate(test_texts, test_labels)
-print ("Loss_ Main:" + loss)
-print("Accuracy_Main :" + accuracy)
-print ("Loss_ Example:" + loss2)
-print("Accuracy_Example :" + accuracy2)
+print ("Loss_ Main:" + str(loss))
+print("Accuracy_Main :" + str(accuracy))
+print ("Loss_ Example:" + str(loss2))
+print("Accuracy_Example :" + str(accuracy2))
 
-model.save("model_creation/saved_model.h5")
+model.save("model_creation/saved_model.keras")
 print('\nSaved model:')
