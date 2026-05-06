@@ -2,3 +2,32 @@ datasets/
 saved_model/
 model_tester.py/
 archive (6)/
+pycache/
+
+# Python
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+ENV/
+
+# Keras/TensorFlow models
+*.keras
+*.h5
+.keras/
+
+# Environment variables
+.env
+.env.local
+
+# Node modules
+node_modules/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
