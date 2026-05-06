@@ -83,7 +83,7 @@ const toggleBgColor = () => {
             borderRadius: "4px",
           }}
         >
-          Change Card Color
+          Change Aesthetics!
         </button>
 
         <textarea
